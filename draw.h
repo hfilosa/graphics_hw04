@@ -15,7 +15,7 @@ void draw_lines( struct matrix * points, screen s, color c);
 
 //advanced shapes
 void add_circle( struct matrix * points, 
-		 double cx, double cy, 
+		 double cx, double cy,
 		 double r, double step );
 void add_curve( struct matrix *points, 
 		double x0, double y0,
@@ -24,16 +24,16 @@ void add_curve( struct matrix *points,
 		double x3, double y3,
 		double step, int type );
 void add_sphere( struct matrix * points, 
-		      double cx, double cy, double r, 
+		 double cx, double cy, double cz, double r, 
 		      double step );
 void generate_sphere( struct matrix * points, 
-			   double cx, double cy, double r, 
+		      double cx, double cy, double cz, double r, 
 			   double step );
 void add_torus( struct matrix * points, 
-		     double cx, double cy, double r1, double r2, 
+		double cx, double cy, double cz, double r1, double r2, 
 		      double step );
 void generate_torus( struct matrix * points, 
-			  double cx, double cy, double r1, double r2, 
+		     double cx, double cy, double cz, double r1, double r2, 
 			   double step );
 void add_box( struct matrix * points,
 		   double x, double y, double z,

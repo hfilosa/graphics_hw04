@@ -1,0 +1,23 @@
+torus
+280 120 0 20 80
+torus
+280 170 0 30 100
+torus
+280 240 0 40 130
+torus
+280 330 0 50 170
+sphere
+280 400 0 100
+box
+220 500 170 380 350 340
+display
+ident
+xrotate
+10
+yrotate
+20
+apply
+display
+save
+neat.png
+quit

@@ -25,21 +25,22 @@
   jdyrlandweaver
   ====================*/
 void add_sphere( struct matrix * points, 
-		 double cx, double cy, double r, 
+		 double cx, double cy, double cz, double r, 
 		 double step ) {
-  
+  generate_sphere(points,cx,cy,cz,r,step);
 }
 
 /*======== void generate_sphere() ==========
   Inputs:   struct matrix * points
             double cx
 	    double cy
+	    double cz
 	    double r
 	    double step  
   Returns: 
 
   Generates all the points along the surface of a 
-  sphere with center (cx, cy) and radius r
+  sphere with center (cx, cy, cz) and radius r
 
   Adds these points to the matrix parameter
 
@@ -47,8 +48,18 @@ void add_sphere( struct matrix * points,
   jdyrlandweaver
   ====================*/
 void generate_sphere( struct matrix * points, 
-		      double cx, double cy, double r, 
+		      double cx, double cy, double cz, double r, 
 		      double step ) {
+  double p,t;
+  double x,y,z;
+  for (p=0;p<=1;p+=step){
+    for (t=0;t<=1;t+=step){
+      x= r*cos(M_PI*t) + cx;
+      y= r*sin(M_PI*t)*cos(2*M_PI*p) + cy;
+      z= r*sin(M_PI*t)*sin(2*M_PI*p) + cz;
+      add_edge(points,x,y,z,x,y,z);
+    }
+  }
 }    
 
 /*======== void add_torus() ==========
@@ -61,7 +72,7 @@ void generate_sphere( struct matrix * points,
   Returns: 
 
   adds all the points required to make a torus
-  with center (cx, cy) and radii r1 and r2.
+  with center (cx, cy, cz) and radii r1 and r2.
 
   should call generate_torus to create the
   necessary points
@@ -70,8 +81,9 @@ void generate_sphere( struct matrix * points,
   jdyrlandweaver
   ====================*/
 void add_torus( struct matrix * points, 
-		double cx, double cy, double r1, double r2, 
+		double cx, double cy, double cz, double r1, double r2, 
 		double step ) {
+  generate_torus(points,cx,cy,cz,r1,r2,step);
 }
 
 /*======== void generate_torus() ==========
@@ -90,8 +102,18 @@ void add_torus( struct matrix * points,
   jdyrlandweaver
   ====================*/
 void generate_torus( struct matrix * points, 
-		     double cx, double cy, double r1, double r2, 
+		     double cx, double cy, double cz, double r1, double r2, 
 		     double step ) {
+  double p,t;
+  double x,y,z;
+  for (p=0;p<=1;p+=step){
+    for (t=0;t<=1;t+=step){
+      x= (r1*cos(2*M_PI*t)+r2)*cos(2*M_PI*p) + cx;
+      y= r1*sin(2*M_PI*t) + cy;
+      z= (r1*cos(2*M_PI*t)+r2)*sin(2*M_PI*p) + cz;
+      add_edge(points,x,y,z,x,y,z);
+    }
+  }
 }
 
 /*======== void add_box() ==========
@@ -113,6 +135,21 @@ void generate_torus( struct matrix * points,
 void add_box( struct matrix * points,
 	      double x, double y, double z,
 	      double width, double height, double depth ) {
+  //Front face
+  add_edge(points,x,y,z,x,y-height,z);
+  add_edge(points,x,y,z,x+width,y,z);
+  add_edge(points,x+width,y,z,x+width,y-height,z);
+  add_edge(points,x,y-height,z,x+width,y-height,z);
+  //Back face
+  add_edge(points,x,y,z+depth,x,y-height,z+depth);
+  add_edge(points,x,y,z+depth,x+width,y,z+depth);
+  add_edge(points,x+width,y,z+depth,x+width,y-height,z+depth);
+  add_edge(points,x,y-height,z+depth,x+width,y-height,z+depth);
+  //Connecting lines
+  add_edge(points,x,y,z,x,y,z+depth);
+  add_edge(points,x+width,y,z,x+width,y,z+depth);
+  add_edge(points,x,y-height,z,x,y-height,z+depth);
+  add_edge(points,x+width,y-height,z,x+width,y-height,z+depth);
 }
   
 /*======== void add_circle() ==========

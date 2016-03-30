@@ -52,7 +52,7 @@ The file follows the following format:
 	 sphere: add a sphere to the edge matrix -
 	    takes 4 arguments (cx,cy,cz,radius)
 	 torus: add a torus to the edge matrix -
-	    takes 3 arguments (cx,cy,cz,radius)
+	    takes 5 arguments (cx,cy,cz,radius1,radius2)
 	 apply: apply the current transformation matrix to the 
 	    edge matrix
 	 display: draw the lines of the edge matrix to the screen
@@ -95,7 +95,7 @@ void parse_file ( char * filename,
   
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
-    //printf(":%s:\n",line);
+    printf(":%s:\n",line);
     double x, y, z, x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
    
     
@@ -173,11 +173,23 @@ void parse_file ( char * filename,
       tmp = make_rotZ( angle);
       matrix_mult(tmp, transform);
     }
+    else if ( strncmp(line, "box", strlen(line)) == 0 ) {
+      //printf("BOX!\n");
+      fgets(line, 255, f);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf",&x,&y,&z,&x1,&y1,&z1);
+      add_box(pm,x,y,z,x1,y1,z1);
+    }
     else if ( strncmp(line, "sphere", strlen(line)) == 0 ) {
       //printf("SPHERE!\n");
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf",&x,&y,&z,&x1);
       add_sphere(pm,x,y,z,x1,0.01);
+    }
+    else if ( strncmp(line, "torus", strlen(line)) == 0 ) {
+      //printf("TORUS!\n");
+      fgets(line, 255, f);
+      sscanf(line, "%lf %lf %lf %lf %lf",&x,&y,&z,&x1,&y1);
+      add_torus(pm,x,y,z,x1,y1,0.01);
     }
     else if ( strncmp(line, "ident", strlen(line)) == 0 ) {
       ident(transform);
@@ -202,6 +214,10 @@ void parse_file ( char * filename,
     }
     else if ( strncmp(line, "quit", strlen(line)) == 0 ) {
       return;
+    }
+    else if ( strncmp(line, "clear", strlen(line)) == 0 ) {
+      free_matrix(pm);
+      pm=new_matrix(4,1);
     }
     else {
       printf("Invalid command\n");

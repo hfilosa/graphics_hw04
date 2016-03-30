@@ -52,7 +52,7 @@ display
 #clear the edge matrix, test torus
 clear
 torus
-0 0 25 150
+0 0 0 25 150
 display
 #rotate 90 degrees about y to check lines
 ident
@@ -97,7 +97,7 @@ zrotate
 70
 apply
 torus
-0 -250 35 175
+0 -250 0 35 175
 ident
 xrotate
 30
